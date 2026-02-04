@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POP Gráfica - Point of Purchase</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 1rem;
+            flex-wrap: wrap;
+        }
+
+        nav li {
+            margin: 0 1.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #667eea;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #764ba2;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 3rem;
+        }
+
+        section h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* Services */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .service-card h3 {
+            color: #764ba2;
+            margin-bottom: 1rem;
+        }
+
+        /* Gallery */
+        .gallery-upload {
+            background: #f8f9fa;
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .gallery-upload input {
+            display: none;
+        }
+
+        .gallery-upload label {
+            background: #667eea;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        .gallery-upload label:hover {
+            background: #764ba2;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            background: #f8f9fa;
+            aspect-ratio: 4/3;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-item .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .gallery-item:hover .delete-btn {
+            opacity: 1;
+        }
+
+        /* About */
+        .about-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            line-height: 1.8;
+        }
+
+        /* Contact */
+        .contact-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .contact-info p {
+            margin: 1rem 0;
+            font-size: 1.1rem;
+        }
+
+        .contact-info a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-info a:hover {
+            color: #764ba2;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav li {
+                margin: 0.5rem 0;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .placeholder-text {
+            color: #999;
+            font-style: italic;
+            text-align: center;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>POP Gráfica</h1>
+        <p>Point of Purchase - Soluciones Gráficas Profesionales</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#galeria">Galería</a></li>
+            <li><a href="#nosotros">Nosotros</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Servicios -->
+        <section id="servicios">
+            <h2>Nuestros Servicios</h2>
+            <div class="services">
+                <div class="service-card">
+                    <h3>🖼️ Impresión en Vinilo</h3>
+                    <p>Gráficas de alta calidad en vinilo adhesivo para interior y exterior. Ideal para señalización, decoración y publicidad.</p>
+                </div>
+                <div class="service-card">
+                    <h3>📋 Impresión en Lona</h3>
+                    <p>Lonas resistentes para carteles publicitarios, banners y pendones de gran formato. Perfectas para exteriores.</p>
+                </div>
+                <div class="service-card">
+                    <h3>🎯 Cuerpos de Polyfan</h3>
+                    <p>Estructuras publicitarias livianas y duraderas. Ideales para puntos de venta y exhibiciones promocionales.</p>
+                </div>
+                <div class="service-card">
+                    <h3>📢 Carteles y Posters</h3>
+                    <p>Diseño e impresión de carteles promocionales en diversos tamaños y materiales según tus necesidades.</p>
+                </div>
+                <div class="service-card">
+                    <h3>🚩 Estandartes</h3>
+                    <p>Estandartes personalizados para eventos, negocios y promociones especiales.</p>
+                </div>
+                <div class="service-card">
+                    <h3>✨ Diseño Personalizado</h3>
+                    <p>Asesoramiento y diseño gráfico adaptado a la identidad de tu marca.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Galería -->
+        <section id="galeria">
+            <h2>Galería de Trabajos</h2>
+            
+            <div class="gallery-upload">
+                <p style="margin-bottom: 1rem;">Añade imágenes de tus trabajos realizados</p>
+                <input type="file" id="imageUpload" accept="image/*" multiple>
+                <label for="imageUpload">📷 Seleccionar Imágenes</label>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">Puedes seleccionar múltiples imágenes a la vez</p>
+            </div>
+
+            <div class="gallery-grid" id="galleryGrid">
+                <div class="placeholder-text">
+                    No hay imágenes aún. Usa el botón de arriba para añadir fotos de tus trabajos.
+                </div>
+            </div>
+        </section>
+
+        <!-- Nosotros -->
+        <section id="nosotros">
+            <h2>Sobre Nosotros</h2>
+            <div class="about-content">
+                <p>
+                    <strong>POP Gráfica</strong> es un negocio especializado en la producción de material gráfico de alta calidad 
+                    para puntos de venta (Point of Purchase). Nos dedicamos a crear soluciones visuales que ayudan a 
+                    nuestros clientes a destacar sus productos y servicios.
+                </p>
+                <p style="margin-top: 1rem;">
+                    Con experiencia en impresión sobre vinilo, lona y polyfan, ofrecemos productos duraderos y de excelente 
+                    presentación para todo tipo de necesidades publicitarias y de señalización.
+                </p>
+                <p style="margin-top: 1rem;">
+                    Nuestro compromiso es entregar trabajos de calidad profesional con atención personalizada y precios competitivos.
+                </p>
+            </div>
+        </section>
+
+        <!-- Contacto -->
+        <section id="contacto">
+            <h2>Contacto</h2>
+            <div class="contact-info">
+                <p><strong>¿Necesitas una cotización o más información?</strong></p>
+                <p>📞 Teléfono: <a href="tel:+1234567890">(Agregar número)</a></p>
+                <p>📧 Email: <a href="mailto:contacto@popgrafica.com">contacto@popgrafica.com</a></p>
+                <p>📍 Ubicación: (Agregar dirección)</p>
+                <p style="margin-top: 1.5rem; color: #666;">
+                    Estamos listos para hacer realidad tus proyectos gráficos
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 POP Gráfica - Point of Purchase. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Cargar imágenes guardadas al inicio
+        window.addEventListener('DOMContentLoaded', loadGallery);
+
+        // Manejar la carga de imágenes
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const files = e.target.files;
+            const galleryGrid = document.getElementById('galleryGrid');
+            
+            // Remover placeholder si existe
+            const placeholder = galleryGrid.querySelector('.placeholder-text');
+            if (placeholder) {
+                placeholder.remove();
+            }
+
+            // Cargar imágenes existentes
+            let savedImages = JSON.parse(localStorage.getItem('popGraficaGallery') || '[]');
+
+            // Procesar cada archivo
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                
+                reader.onload = function(event) {
+                    const imageData = event.target.result;
+                    
+                    // Guardar en localStorage
+                    savedImages.push(imageData);
+                    localStorage.setItem('popGraficaGallery', JSON.stringify(savedImages));
+                    
+                    // Crear y mostrar elemento
+                    addImageToGallery(imageData, savedImages.length - 1);
+                };
+                
+                reader.readAsDataURL(file);
+            });
+
+            // Limpiar input
+            e.target.value = '';
+        });
+
+        function addImageToGallery(imageSrc, index) {
+            const galleryGrid = document.getElementById('galleryGrid');
+            
+            const galleryItem = document.createElement('div');
+            galleryItem.className = 'gallery-item';
+            
+            const img = document.createElement('img');
+            img.src = imageSrc;
+            img.alt = 'Trabajo realizado';
+            
+            const deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.innerHTML = '×';
+            deleteBtn.onclick = function() {
+                deleteImage(index);
+            };
+            
+            galleryItem.appendChild(img);
+            galleryItem.appendChild(deleteBtn);
+            galleryGrid.appendChild(galleryItem);
+        }
+
+        function deleteImage(index) {
+            if (confirm('¿Estás seguro de eliminar esta imagen?')) {
+                let savedImages = JSON.parse(localStorage.getItem('popGraficaGallery') || '[]');
+                savedImages.splice(index, 1);
+                localStorage.setItem('popGraficaGallery', JSON.stringify(savedImages));
+                loadGallery();
+            }
+        }
+
+        function loadGallery() {
+            const galleryGrid = document.getElementById('galleryGrid');
+            galleryGrid.innerHTML = '';
+            
+            const savedImages = JSON.parse(localStorage.getItem('popGraficaGallery') || '[]');
+            
+            if (savedImages.length === 0) {
+                galleryGrid.innerHTML = '<div class="placeholder-text">No hay imágenes aún. Usa el botón de arriba para añadir fotos de tus trabajos.</div>';
+            } else {
+                savedImages.forEach((imageSrc, index) => {
+                    addImageToGallery(imageSrc, index);
+                });
+            }
+        }
+
+        // Smooth scrolling para navegación
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
